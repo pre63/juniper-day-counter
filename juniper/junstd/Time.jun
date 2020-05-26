@@ -1,0 +1,97 @@
+module Time
+open(Prelude)
+
+(*
+    Interface: Time
+*)
+(*
+    Function: wait
+
+    Pauses the program for the amount of time (in milliseconds) given as the
+    parameter.
+
+    Type Signature:
+    | (uint32) -> unit
+
+    Parameters:
+        time : uint32 - The amount of time to sleep
+*)
+fun wait(time : uint32) : unit =
+    #delay(time);#
+
+(*
+    Function: now
+
+    Gives the number of milliseconds that has passed since the program
+    began running. Useful as a time stamp.
+
+    Type Signature:
+    | () -> uint32
+
+    Returns:
+        The time elapsed
+*)
+fun now() : uint32 = (
+    let ret : uint32 = 0u32;
+    #ret = millis();#;
+    ret
+)
+
+(*
+    Type: timerState
+
+    Holds the state for the every functions
+
+    | timerState
+
+    Members:
+        lastPulse : uint32 - Timestamp of the last pulse
+*)
+type timerState = { lastPulse : uint32 }
+
+(*
+    Function: state
+
+    Creates a new <timerState>
+
+    Type Signature:
+    | () -> timerState ref
+
+    Returns:
+        A <timerState> with lastPulse set to 0
+*)
+fun state() : timerState ref =
+    ref timerState { lastPulse = 0 }
+
+(*
+    Function: every
+
+    Produces a signal of millisecond time stamps which fires in a time delay
+    of the given interval.
+
+    Type Signature:
+    | (uint32, timerState ref) -> sig<uint32>
+
+    Parameters:
+        interval : uint32 - The interval between values firing
+        state : timerState ref - Holds the last time that the signal fired
+
+    Returns:
+        A signal of timestamps which carries a value every interval
+        milliseconds.
+*)
+fun every(interval : uint32, state : timerState ref) : sig<uint32> = (
+    let t = now();
+    let lastWindow =
+        if interval == 0 then
+            t
+        else
+            (t / interval) * interval
+        end;
+    if (!state).lastPulse >= lastWindow then
+        signal<uint32>(nothing<uint32>())
+    else
+        (set ref state = timerState { lastPulse = t };
+        signal<uint32>(just<uint32>(t)))
+    end
+)

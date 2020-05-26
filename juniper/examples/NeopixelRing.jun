@@ -1,0 +1,59 @@
+module NeopixelRing
+open(Prelude)
+
+let ringPin = 9
+let ringSize = 16
+let ringType = Neopixel:GRB + Neopixel:KHZ800
+let ringStrip = Neopixel:make(ringSize, ringPin, ringType)
+
+let buttonPin = 10
+let buttonState = Button:state()
+let edgeState = ref Io:low()
+
+type ringMode = red | green | blue
+let mode = ref red()
+
+fun transitionMode(m) =
+    case m of
+    | red() => green()
+    | green() => blue()
+    | blue() => red()
+    end
+
+fun modeToColor(m) =
+    case m of
+    | red() => Neopixel:makeColor(255, 0, 0)
+    | green() => Neopixel:makeColor(0, 255, 0)
+    | blue() => Neopixel:makeColor(0, 0, 255)
+    end
+
+fun setup() = (
+    Neopixel:begin(ringStrip);
+    Io:setPinMode(buttonPin, Io:input());
+    Io:setPinMode(buttonPin, Io:inputPullup())
+)
+
+fun main() = (
+    setup();
+    while true do (
+        let buttonSig = Io:digIn(buttonPin);
+        let debouncedSig = Io:risingEdge(
+                                Button:debounce(buttonSig, buttonState),
+                                edgeState);
+        let changeModeSig =
+            Signal:foldP(
+                fn (u, currMode) ->
+                    transitionMode(currMode)
+                end,
+                mode, debouncedSig);
+        Signal:sink(
+            fn (mode) -> (
+                let color = modeToColor(mode);
+                for i in 0 to ringSize - 1 do
+                    Neopixel:setPixelColor(i, color, ringStrip)
+                end;
+                Neopixel:show(ringStrip))
+            end,
+            changeModeSig)
+    ) end
+)

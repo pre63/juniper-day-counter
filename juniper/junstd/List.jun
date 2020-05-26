@@ -1,0 +1,656 @@
+module List
+open(Prelude)
+
+(* The goal of this module is to provide reusable functions that run as quickly
+   as possible. This means that most of the functions in this module are written
+   in an imperative style. *)
+
+(*
+    Interface: List
+*)
+
+(*
+    Function: map
+
+    Applies f to every element of the list and returns the new list.
+
+    Type Signature:
+    | <'a,'b;n>(('a) -> 'b, list<'a; n>) -> list<'b; n>
+
+    Parameters:
+        f : ('a) -> 'b - The mapping function
+        lst : list<'t;aCap> - The list to map.
+
+   Returns:
+        The list obtained by applying f to every element of lst.
+*)
+fun map<'a,'b;n>(f : ('a) -> 'b, lst : list<'a; n>) : list<'b; n> = (
+    let mutable ret = array 'b[n] end;
+    for i : uint32 in 0 to lst.length - 1 do (
+        set ret[i] = f(lst.data[i]);
+        ()
+    ) end;
+    list<'b;n>{data=ret; length=lst.length}
+)
+
+(*
+    Function: foldl
+
+    Applies a function f to each element of the list, threading an accumulator
+    argument through the computation.
+
+    Type Signature:
+    | <'t,'state;n>(('t, 'state) -> 'state, 'state, list<'t; n>) -> 'state
+
+    Parameters:
+        f : ('t, 'state) -> 'state - The function to update the state given the input elements.
+        initState : 'state - The initial state.
+        lst : list<'t; n> - The input list.
+
+    Returns:
+        The final state value.
+*)
+fun foldl<'t,'state;n>(f : ('t, 'state) -> 'state, initState : 'state, lst : list<'t; n>) : 'state = (
+    let mutable s = initState;
+    for i : uint32 in 0 to lst.length - 1 do (
+        set s = f(lst.data[i], s);
+        ()
+    ) end;
+    s
+)
+
+(*
+    Function: foldr
+
+    Applies a function f to each element of the list in reverse order, threading
+    an accumulator argument through the computation.
+
+    Type Signature:
+    | <'t,'state;n>(('t, 'state) -> 'state, 'state, list<'t; n>) -> 'state
+
+    Parameters:
+        f : ('t,'state) -> 'state - The function to update the state given the
+                                     input elements.
+        initState : 'state - The initial state.
+        lst : list<'t; n> - The input list.
+
+    Returns:
+        The final state value.
+*)
+fun foldr<'t,'state;n>(f : ('t, 'state) -> 'state, initState : 'state, lst : list<'t; n>) : 'state = (
+    let mutable s = initState;
+    for i : uint32 in lst.length - 1 downto 0 do (
+        set s = f(lst.data[i], s);
+        ()
+    ) end;
+    s
+)
+
+(*
+    Function: append
+
+    Appends two lists.
+
+    Type Signature:
+    | <'t;aCap,bCap,retCap>(list<'t;aCap>, list<'t;bCap>) -> list<'t;retCap>
+
+    Parameters:
+        lstA : list<'t;aCap> - The first list.
+        lstB : list<'t;bCap> - The second list.
+
+   Returns:
+        The two lists appended together.
+*)
+fun append<'t;aCap,bCap,retCap>(lstA : list<'t;aCap>, lstB : list<'t;bCap>) : list<'t;retCap> = (
+    let mutable j : uint32 = 0;
+    let mutable out = list<'t;retCap>{data=array 't[retCap] end;
+                                      length=lstA.length + lstB.length};
+    for i : uint32 in 0 to lstA.length - 1 do (
+        set out.data[j] = lstA.data[i];
+        set j = j + 1;
+        ()
+    ) end;
+    for i : uint32 in 0 to lstB.length - 1 do (
+        set out.data[j] = lstB.data[i];
+        set j = j + 1;
+        ()
+    ) end;
+    out
+)
+
+(*
+    Function: nth
+
+    Returns the nth element of the given list
+
+    Type Signature:
+    | <'t;n>(uint32, list<'t;n>) -> 't
+
+    Parameters:
+        i : uint32 - The index of the element to be retrieved
+        lst : list<'t;n> - The given list
+
+    Returns:
+        The element at position i in the list
+*)
+fun nth<'t;n>(i : uint32, lst : list<'t;n>) : 't =
+    if i < lst.length then (
+        let list<'t;n>{data=data} = lst;
+        data[i]
+    ) else
+        quit<'t>()
+    end
+
+(*
+    Function: flattenSafe
+
+    Flattens a list of lists into a single list.
+
+    Type Signature:
+    | <'t;m,n>(list<list<'t;m>;n>) -> list<'t;m*n>
+
+    Parameters:
+        listOfLists : list<list<'t;m>;n> - The list of lists
+
+    Returns:
+        The flattened list
+*)
+
+fun flattenSafe<'t;m,n>(listOfLists : list<list<'t;m>;n>) : list<'t;m*n> = (
+    let mutable ret = array 't[m*n] end;
+    let mutable index : uint32 = 0;
+    for i : uint32 in 0 to listOfLists.length - 1 do
+        for j : uint32 in 0 to listOfLists.data[i].length - 1 do (
+            set ret[index] = listOfLists.data[i].data[j];
+            set index = ((index + 1) : uint32);
+            ()
+        ) end
+    end;
+    list<'t;m*n>{data=ret; length=index}
+)
+
+
+(*
+    Function: resize
+
+    Creates a copy of the list which has a new capacity m. The contents and
+    length of the list remained unchanged.
+
+    Type Signature:
+    | <'t;n,m>(list<'t;n>) -> list<'t;m>
+
+    Parameters:
+        lst : list<'t;n> - The list to resize
+
+    Returns:
+        The new list with capacity m
+*)
+fun resize<'t;n,m>(lst : list<'t;n>) : list<'t;m> = (
+    let mutable ret = array 't[m] end;
+    for i : uint32 in 0 to lst.length - 1 do (
+        set ret[i] = lst.data[i];
+        ()
+    ) end;
+    list<'t;m>{data=ret; length=lst.length}
+)
+
+(*
+    Function: all
+
+    Returns true if pred(elem) returns true for all elements elem in lst,
+    otherwise false.
+
+    Type Signature:
+    | <'t;n>(('t) -> bool, list<'t;n>) -> bool
+
+    Parameters:
+        pred : ('t) -> bool - The predicate which must be satisfied
+        lst : list<'t;n> - The list on which the predicate is checked
+
+    Returns:
+        A boolean value which determines if pred satsified for every element of
+        lst.
+*)
+fun all<'t;n>(pred : ('t) -> bool, lst : list<'t;n>) : bool = (
+    let mutable satisfied = true;
+    for i : uint32 in 0 to lst.length - 1 do
+        if satisfied then
+            (set satisfied = pred(lst.data[i]);
+            ())
+        else
+            ()
+        end
+    end;
+    satisfied
+)
+
+(*
+    Function: any
+
+    Returns true if pred(elem) returns true for at least one element elem in
+    lst, otherwise false.
+
+    Type Signature:
+    | <'t;n>(('t) -> bool, list<'t;n>) -> bool
+
+    Parameters:
+        pred : ('t) -> bool - The predicate which must be satisfied
+        lst : list<'t;n> - The list on which the predicate is checked
+
+    Returns:
+        A boolean value which determines if pred is satsified for some element
+        of lst.
+*)
+fun any<'t;n>(pred : ('t) -> bool, lst : list<'t;n>) : bool = (
+    let mutable satisfied = false;
+    for i : uint32 in 0 to lst.length - 1 do
+        if not satisfied then
+            (set satisfied = pred(lst.data[i]);
+            ())
+        else
+            ()
+        end
+    end;
+    satisfied
+)
+
+(*
+    Function: pushBack
+
+    Returns a copy of the given list with the element appended to the end.
+    If the element will not fit in the list, the program crashes.
+
+    Type Signature:
+    | <'t;n>('t, list<'t;n>) -> list<'t;n>
+
+    Parameters:
+        elem : 't - The element to add to the end of the list
+        lst : list<'t;n> - The list
+
+    Returns:
+        A copy of lst with elem appended to the end
+*)
+fun pushBack<'t;n>(elem : 't, lst : list<'t;n>) : list<'t;n> = (
+    if lst.length >= n then
+        quit<list<'t;n>>()
+    else (
+        let mutable ret = lst;
+        set ret.data[lst.length] = elem;
+        set ret.length = lst.length + 1;
+        ret
+    ) end
+)
+
+(*
+    Function: pushOffFront
+
+    Returns a copy of the given list with the element appended to the front.
+    If the list is already full then the last element is pushed off (removed)
+    from the back of the list.
+
+    Type Signature:
+    | <'t;n>('t, list<'t;n>) -> list<'t;n>
+
+    Parameters:
+        elem : 't - The element to add to the front of the list
+        lst : list<'t;n> - The list
+
+    Returns:
+        A copy of lst with elem appended to the front
+*)
+fun pushOffFront<'t;n>(elem : 't, lst : list<'t;n>) : list<'t;n> = (
+    let mutable ret = lst;
+    for i : int32 in n - 2 downto 0 do (
+        set ret.data[i + 1] = ret.data[i];
+        ()
+    ) end;
+    set ret.data[0] = elem;
+    if ret.length == n then
+        ret
+    else
+        (set ret.length = lst.length + 1;
+        ret)
+    end
+)
+
+(*
+    Function: setNth
+
+    Returns a copy of the given list where the element at the given index
+    is the given element.
+
+    Type Signature:
+    | <'t;n>(uint32, 't, list<'t;n>) -> list<'t;n>
+
+    Parameters:
+        index : uint32 - The index to set
+        elem : 't - The new element
+        lst : list<'t;n> - The list
+
+    Returns:
+        A new list where the elem is at index.
+*)
+fun setNth<'t;n>(index : uint32, elem : 't, lst : list<'t;n>) : list<'t;n> =
+    if lst.length <= index then
+        quit<list<'t;n>>()
+    else
+        (let mutable ret = lst;
+        set ret.data[index] = elem;
+        ret)
+    end
+
+(*
+    Function: replicate
+
+    Initializes a new list of a given length using the given element.
+
+    Type Signature:
+    | <'t;n>(uint32, 't) -> list<'t;n>
+
+    Parameters:
+        numOfElements : uint32 - The length of the new list
+        elem : 't - The element to replicate
+
+    Returns:
+        A new list with elem at every position in the list.
+*)
+fun replicate<'t;n>(numOfElements : uint32, elem : 't) : list<'t;n> =
+    list<'t;n>{data = array 't[n] of elem end; length = numOfElements}
+
+(*
+    Function: remove
+
+    Returns a copy of lst where the first element equal to elem is
+    deleted, if there is such an element.
+
+    Type Signature:
+    | <'t;n>('t, list<'t;n>) -> list<'t;n>
+
+    Parameters:
+        elem : 't - The element to remove from the list
+        lst : 't - The list
+
+    Returns:
+        A copy of lst with elem removed.
+*)
+fun remove<'t;n>(elem : 't, lst : list<'t;n>) : list<'t;n> = (
+    let mutable index : uint32 = 0;
+    let mutable found = false;
+    for i : uint32 in 0 to lst.length - 1 do
+        if (not found) and (lst.data[i] == elem) then (
+            set index = i;
+            set found = true;
+            ()
+        ) else
+            ()
+        end
+    end;
+    if found then
+        (let mutable ret = lst;
+        set ret.length = lst.length - 1;
+        for i : uint32 in index to lst.length - 2 do
+            set ret.data[i] = lst.data[i + 1]
+        end;
+        ret)
+    else
+        lst
+    end
+)
+
+(*
+    Function: dropLast
+
+    Drops the last element of a List. The list should be non-empty, otherwise
+    the program will exit.
+
+    Type Signature:
+    | <'t;n>(list<'t;n>) -> list<'t;n>
+
+    Parameters:
+        lst : list<'t;n> - The list
+
+    Returns:
+        The list with the last element dropped
+*)
+fun dropLast<'t;n>(lst : list<'t;n>) : list<'t;n> = (
+    if lst.length == 0 then
+        quit<list<'t;n>>()
+    else
+        list<'t;n> {
+            data = lst.data;
+            length = lst.length - 1
+        }
+    end
+)
+
+(*
+    Function: foreach
+
+    Calls f for each element in lst. This function is used for its side effects
+    and the evaluation order is defined to be the same as the order of the
+    elements in the list.
+
+    Type Signature:
+    | <'t;n>(('t) -> unit, list<'t;n>) -> unit
+
+    Parameters:
+        f : ('t) -> unit - The function to call
+        lst : list<'t;n> - The list
+
+    Returns:
+        Unit
+*)
+fun foreach<'t;n>(f : ('t) -> unit, lst : list<'t;n>) : unit =
+    for i : uint32 in 0 to lst.length - 1 do
+        f(lst.data[i])
+    end
+
+(*
+    Function: last
+
+    Returns the last element of the lst.
+
+    Type Signature:
+    | <'t;n>(list<'t;n>) -> 't
+
+    Parameters:
+        lst : list<'t;n> - The list
+
+    Returns:
+        The last element of the list
+*)
+fun last<'t;n>(lst : list<'t;n>) : 't = (
+    let list<'t;n>{data=data; length=length} = lst;
+    data[length - 1]
+)
+
+(*
+    Function: max_
+
+    Returns the maximum element of the lst. The program exits if the list has
+    no elements.
+
+    Type Signature:
+    | <'t;n>(list<'t;n>) -> 't
+
+    Parameters:
+        lst : list<'t;n> - The list
+
+    Returns:
+        The maximum element of the list
+*)
+fun max_<'t;n>(lst : list<'t;n>) : 't =
+    if (lst.length == 0) or (n == 0) then
+        quit<'t>()
+    else (
+        let mutable maxVal = lst.data[0];
+        for i : uint32 in 1 to lst.length - 1 do
+            if lst.data[i] > maxVal then (
+                set maxVal = lst.data[i];
+                ()
+            ) else
+                ()
+            end
+        end;
+        maxVal
+    ) end
+
+
+(*
+    Function: min_
+
+    Returns the minimum element of the lst. The program exits if the list has
+    no elements.
+
+    Type Signature:
+    | <'t;n>(list<'t;n>) -> 't
+
+    Parameters:
+        lst : list<'t;n> - The list
+
+    Returns:
+        The minimum element of the list
+*)
+fun min_<'t;n>(lst : list<'t;n>) : 't =
+    if (lst.length == 0) or (n == 0) then
+        quit<'t>()
+    else (
+        let mutable minVal = lst.data[0];
+        for i : uint32 in 1 to lst.length - 1 do
+            if lst.data[i] < minVal then (
+                set minVal = lst.data[i];
+                ()
+            ) else
+                ()
+            end
+        end;
+        minVal
+    ) end
+
+
+(*
+    Function: member
+
+    Returns true if elem is a member of lst, otherwise false.
+
+    Type Signature:
+    | <'t;n>('t, list<'t;n>) -> bool
+
+    Parameters:
+        elem : 't - The element to match
+        lst : list<'t;n> - The list to search
+
+    Returns:
+        True if elem is in the list, otherwise false.
+*)
+fun member<'t;n>(elem : 't, lst : list<'t;n>) : bool = (
+    let mutable found = false;
+    for i : uint32 in 0 to lst.length - 1 do
+        if (not found) and (lst.data[i] == elem) then (
+            set found = true;
+            ()
+        ) else
+            ()
+        end
+    end;
+    found
+)
+
+(*
+    Function: zip
+
+    Zips two lists of equal length into one list of two-tuples, where the first
+    element of each tuple is taken from the first list and the second element is
+    taken from corresponding element in the second list. If the lists are not
+    of equal length, the program exits.
+
+    Type Signature:
+    | <'a,'b;n>(list<'a;n>, list<'b;n>) -> list<('a*'b);n>
+
+    Parameters:
+        lstA : list<'a;n> - The first list to zip
+        lstB : list<'b;n> - The second list to zip
+
+    Returns:
+        The zipped lists.
+*)
+fun zip<'a,'b;n>(lstA : list<'a;n>, lstB : list<'b;n>) : list<'a*'b;n> =
+    if lstA.length == lstB.length then
+        (let mutable ret = list<('a*'b);n> {
+            data = array ('a*'b)[n] end;
+            length = lstA.length
+        };
+        for i : uint32 in 0 to lstA.length do (
+            set ret.data[i] = (lstA.data[i] :::: 'a, lstB.data[i] :::: 'b);
+            ()
+        ) end;
+        ret)
+    else
+        quit<list<'a*'b;n>>()
+    end
+
+(*
+    Function: unzip
+
+    Unzips a list of two-tuples into two lists, where the first list contains
+    the first element of each tuple, and the second list contains the second
+    element of each tuple.
+
+    Type Signature:
+    | <'a,'b;n>(list<('a*'b);n>) -> (list<'a;n>*list<'b;n>)
+
+    Parameters:
+        lst : list<('a*'b);n> - The list to unzip
+
+    Returns:
+        The two unzipped lists.
+*)
+fun unzip<'a,'b;n>(lst : list<'a*'b; n>) : list<'a;n>*list<'b;n> = (
+    let mutable retA = list<'a;n> {
+        data = array 'a[n] end;
+        length = lst.length
+    };
+    let mutable retB = list<'b;n> {
+        data = array 'b[n] end;
+        length = lst.length
+    };
+    for i : uint32 in 0 to lst.length - 1 do
+        #retA.data[i] = lst.data[i].e1;
+         retB.data[i] = lst.data[i].e2;#
+    end;
+    (retA, retB)
+)
+
+(*
+    Function: sum
+
+    Computes the sum of a list of numbers
+
+    Type Signature:
+    | <'a;n>(list<'a;n>) -> 'a
+
+    Parameters:
+        lst : list<'a;n> - The list to sum
+
+    Returns:
+        The sum of the list
+*)
+fun sum<'a; n>(lst : list<'a;n>) : 'a =
+    List:foldl<'a, 'a; n>(add<'a>, 0 :::: 'a, lst)
+
+(*
+    Function: average
+
+    Computes the average (mean) of a list of numbers
+
+    Type Signature:
+    | <'a;n>(list<'a;n>) -> 'a
+
+    Parameters:
+        lst : list<'a;n> - The list to average
+
+    Returns:
+        The numerical mean of the list
+*)
+fun average<'a; n>(lst : list<'a;n>) : 'a =
+    sum<'a; n>(lst) / lst.length

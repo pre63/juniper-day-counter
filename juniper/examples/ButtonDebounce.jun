@@ -1,0 +1,34 @@
+module ButtonDebounce
+open(Prelude, Button, Io)
+
+let buttonPin = 2
+let ledPin = 13
+
+let bState = Button:state()
+let edgeState = ref Io:low()
+let ledState = ref Io:high()
+
+fun button() = (
+    let buttonSig = Io:digIn(buttonPin);
+    let debouncedSig = Io:fallingEdge(Button:debounce(buttonSig, bState), edgeState);
+    let ledSig =
+        Signal:foldP(
+            fn (event, currentLedState) ->
+                Io:toggle(currentLedState)
+            end,
+            ledState, debouncedSig);
+    Io:digOut(ledPin, ledSig)
+)
+
+fun setup() = (
+    Io:setPinMode(ledPin, Io:output());
+    Io:setPinMode(buttonPin, Io:input());
+    Io:digWrite(ledPin, !ledState)
+)
+
+fun main() = (
+    setup();
+    while true do
+        button()
+    end
+)

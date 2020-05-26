@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>Juniper</name></assembly>
+<members>
+<member name="M:Extensions.String.implode(Microsoft.FSharp.Collections.FSharpList{System.Char})">
+<summary>
+ Converts a list of characters into a string.
+</summary>
+</member>
+<member name="M:Extensions.String.explode(System.String)">
+<summary>
+ Converts a string into a list of characters.
+</summary>
+</member>
+</members>
+</doc>

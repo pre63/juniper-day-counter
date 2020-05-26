@@ -1,0 +1,33 @@
+module Blink
+open(Prelude, Io, Time)
+
+let boardLed = 13
+
+let tState = Time:state()
+let ledState = ref low()
+
+fun fold(lastState) = (
+  Io:printStr("hello");
+  Io:toggle(lastState)
+)
+
+fun blink() = (
+    let timerSig = Time:every(1000, tState);
+    let ledSig =
+        Signal:foldP(
+            fn (currentTime, lastState) ->
+                fold(lastState)
+            end,
+            ledState, timerSig);
+    Io:digOut(boardLed, ledSig)
+)
+
+fun setup() =
+    Io:setPinMode(boardLed, Io:output())
+
+fun main() = (
+    setup();
+    while true do
+        blink()
+    end
+)
