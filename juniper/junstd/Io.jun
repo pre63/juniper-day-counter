@@ -96,6 +96,23 @@ fun toggle(p : pinState) : pinState =
         unit
 *)
 fun printStr(str : string) : unit =
+    #Serial.print(str);#
+
+(*
+    Function: prin
+
+    Writes a string to the serial output.
+
+    Type Signature:
+    | (string) -> unit
+
+    Parameters:
+        str : string - The string to write
+
+    Returns:
+        unit
+*)
+fun print(str : string) : unit =
     #Serial.println(str);#
 
 (*

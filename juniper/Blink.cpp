@@ -1,4 +1,4 @@
-//Compiled on 26/05/2020 13:46:37
+//Compiled on 28/05/2020 08:08:08
 #include <inttypes.h>
 #include <stdbool.h>
 
@@ -1113,6 +1113,10 @@ namespace Io {
 }
 
 namespace Io {
+    juniper::unit print(const char * str);
+}
+
+namespace Io {
     template<int c68>
     juniper::unit printCharList(Prelude::list<uint8_t, c68> cl);
 }
@@ -1206,43 +1210,43 @@ namespace Io {
 }
 
 namespace Maybe {
-    template<typename t637, typename t638>
-    Prelude::maybe<t638> map(juniper::function<t638(t637)> f, Prelude::maybe<t637> maybeVal);
+    template<typename t638, typename t639>
+    Prelude::maybe<t639> map(juniper::function<t639(t638)> f, Prelude::maybe<t638> maybeVal);
 }
 
 namespace Maybe {
-    template<typename t645>
-    t645 get(Prelude::maybe<t645> maybeVal);
+    template<typename t646>
+    t646 get(Prelude::maybe<t646> maybeVal);
 }
 
 namespace Maybe {
-    template<typename t647>
-    bool isJust(Prelude::maybe<t647> maybeVal);
+    template<typename t648>
+    bool isJust(Prelude::maybe<t648> maybeVal);
 }
 
 namespace Maybe {
-    template<typename t649>
-    bool isNothing(Prelude::maybe<t649> maybeVal);
+    template<typename t650>
+    bool isNothing(Prelude::maybe<t650> maybeVal);
 }
 
 namespace Maybe {
-    template<typename t653>
-    int32_t count(Prelude::maybe<t653> maybeVal);
+    template<typename t654>
+    int32_t count(Prelude::maybe<t654> maybeVal);
 }
 
 namespace Maybe {
-    template<typename t655, typename t656>
-    t656 foldl(juniper::function<t656(t655,t656)> f, t656 initState, Prelude::maybe<t655> maybeVal);
+    template<typename t656, typename t657>
+    t657 foldl(juniper::function<t657(t656,t657)> f, t657 initState, Prelude::maybe<t656> maybeVal);
 }
 
 namespace Maybe {
-    template<typename t661, typename t662>
-    t662 fodlr(juniper::function<t662(t661,t662)> f, t662 initState, Prelude::maybe<t661> maybeVal);
+    template<typename t662, typename t663>
+    t663 fodlr(juniper::function<t663(t662,t663)> f, t663 initState, Prelude::maybe<t662> maybeVal);
 }
 
 namespace Maybe {
-    template<typename t668>
-    juniper::unit iter(juniper::function<juniper::unit(t668)> f, Prelude::maybe<t668> maybeVal);
+    template<typename t669>
+    juniper::unit iter(juniper::function<juniper::unit(t669)> f, Prelude::maybe<t669> maybeVal);
 }
 
 namespace Time {
@@ -1374,13 +1378,13 @@ namespace Math {
 }
 
 namespace Math {
-    template<typename t721>
-    t721 clamp(t721 x, t721 min, t721 max);
+    template<typename t722>
+    t722 clamp(t722 x, t722 min, t722 max);
 }
 
 namespace Math {
-    template<typename t723>
-    int32_t sign(t723 n);
+    template<typename t724>
+    int32_t sign(t724 n);
 }
 
 namespace Button {
@@ -1396,78 +1400,78 @@ namespace Button {
 }
 
 namespace Vector {
-    template<typename t746, int c69>
-    Vector::vector<t746, c69> make(juniper::array<t746, c69> d);
+    template<typename t747, int c69>
+    Vector::vector<t747, c69> make(juniper::array<t747, c69> d);
 }
 
 namespace Vector {
-    template<typename t749, int c71>
-    t749 get(uint32_t i, Vector::vector<t749, c71> v);
+    template<typename t750, int c71>
+    t750 get(uint32_t i, Vector::vector<t750, c71> v);
 }
 
 namespace Vector {
-    template<typename t751, int c72>
-    Vector::vector<t751, c72> add(Vector::vector<t751, c72> v1, Vector::vector<t751, c72> v2);
+    template<typename t752, int c72>
+    Vector::vector<t752, c72> add(Vector::vector<t752, c72> v1, Vector::vector<t752, c72> v2);
 }
 
 namespace Vector {
-    template<typename t760, int c76>
-    Vector::vector<t760, c76> zero();
+    template<typename t761, int c76>
+    Vector::vector<t761, c76> zero();
 }
 
 namespace Vector {
-    template<typename t762, int c77>
-    Vector::vector<t762, c77> subtract(Vector::vector<t762, c77> v1, Vector::vector<t762, c77> v2);
+    template<typename t763, int c77>
+    Vector::vector<t763, c77> subtract(Vector::vector<t763, c77> v1, Vector::vector<t763, c77> v2);
 }
 
 namespace Vector {
-    template<typename t770, int c81>
-    Vector::vector<t770, c81> scale(t770 scalar, Vector::vector<t770, c81> v);
+    template<typename t771, int c81>
+    Vector::vector<t771, c81> scale(t771 scalar, Vector::vector<t771, c81> v);
 }
 
 namespace Vector {
-    template<typename t780, int c84>
-    t780 dot(Vector::vector<t780, c84> v1, Vector::vector<t780, c84> v2);
+    template<typename t781, int c84>
+    t781 dot(Vector::vector<t781, c84> v1, Vector::vector<t781, c84> v2);
 }
 
 namespace Vector {
-    template<typename t786, int c87>
-    t786 magnitude2(Vector::vector<t786, c87> v);
+    template<typename t787, int c87>
+    t787 magnitude2(Vector::vector<t787, c87> v);
 }
 
 namespace Vector {
-    template<typename t788, int c90>
-    double magnitude(Vector::vector<t788, c90> v);
+    template<typename t789, int c90>
+    double magnitude(Vector::vector<t789, c90> v);
 }
 
 namespace Vector {
-    template<typename t794, int c91>
-    Vector::vector<t794, c91> multiply(Vector::vector<t794, c91> u, Vector::vector<t794, c91> v);
+    template<typename t795, int c91>
+    Vector::vector<t795, c91> multiply(Vector::vector<t795, c91> u, Vector::vector<t795, c91> v);
 }
 
 namespace Vector {
-    template<typename t802, int c95>
-    Vector::vector<t802, c95> normalize(Vector::vector<t802, c95> v);
+    template<typename t803, int c95>
+    Vector::vector<t803, c95> normalize(Vector::vector<t803, c95> v);
 }
 
 namespace Vector {
-    template<typename t810, int c98>
-    double angle(Vector::vector<t810, c98> v1, Vector::vector<t810, c98> v2);
+    template<typename t811, int c98>
+    double angle(Vector::vector<t811, c98> v1, Vector::vector<t811, c98> v2);
 }
 
 namespace Vector {
-    template<typename t848>
-    Vector::vector<t848, 3> cross(Vector::vector<t848, 3> u, Vector::vector<t848, 3> v);
+    template<typename t849>
+    Vector::vector<t849, 3> cross(Vector::vector<t849, 3> u, Vector::vector<t849, 3> v);
 }
 
 namespace Vector {
-    template<typename t850, int c111>
-    Vector::vector<t850, c111> project(Vector::vector<t850, c111> a, Vector::vector<t850, c111> b);
+    template<typename t851, int c111>
+    Vector::vector<t851, c111> project(Vector::vector<t851, c111> a, Vector::vector<t851, c111> b);
 }
 
 namespace Vector {
-    template<typename t860, int c112>
-    Vector::vector<t860, c112> projectPlane(Vector::vector<t860, c112> a, Vector::vector<t860, c112> m);
+    template<typename t861, int c112>
+    Vector::vector<t861, c112> projectPlane(Vector::vector<t861, c112> a, Vector::vector<t861, c112> m);
 }
 
 namespace CharList {
@@ -1481,19 +1485,11 @@ namespace CharList {
 }
 
 namespace Blink {
-    Io::pinState fold(Io::pinState lastState);
-}
-
-namespace Blink {
-    juniper::unit blink();
+    juniper::unit loop();
 }
 
 namespace Blink {
     juniper::unit setup();
-}
-
-namespace Blink {
-    juniper::unit main();
 }
 
 namespace Prelude {
@@ -2938,6 +2934,15 @@ namespace Io {
 namespace Io {
     juniper::unit printStr(const char * str) {
         return (([&]() -> juniper::unit {
+            Serial.print(str);
+            return {};
+        })());
+    }
+}
+
+namespace Io {
+    juniper::unit print(const char * str) {
+        return (([&]() -> juniper::unit {
             Serial.println(str);
             return {};
         })());
@@ -3318,47 +3323,47 @@ namespace Io {
 }
 
 namespace Maybe {
-    template<typename t637, typename t638>
-    Prelude::maybe<t638> map(juniper::function<t638(t637)> f, Prelude::maybe<t637> maybeVal) {
-        return (([&]() -> Prelude::maybe<t638> {
-            Prelude::maybe<t637> guid117 = maybeVal;
+    template<typename t638, typename t639>
+    Prelude::maybe<t639> map(juniper::function<t639(t638)> f, Prelude::maybe<t638> maybeVal) {
+        return (([&]() -> Prelude::maybe<t639> {
+            Prelude::maybe<t638> guid117 = maybeVal;
             return ((((guid117).tag == 0) && true) ? 
-                (([&]() -> Prelude::maybe<t638> {
-                    t637 val = (guid117).just;
-                    return just<t638>(f(val));
+                (([&]() -> Prelude::maybe<t639> {
+                    t638 val = (guid117).just;
+                    return just<t639>(f(val));
                 })())
             :
                 (true ? 
-                    (([&]() -> Prelude::maybe<t638> {
-                        return nothing<t638>();
+                    (([&]() -> Prelude::maybe<t639> {
+                        return nothing<t639>();
                     })())
                 :
-                    juniper::quit<Prelude::maybe<t638>>()));
+                    juniper::quit<Prelude::maybe<t639>>()));
         })());
     }
 }
 
 namespace Maybe {
-    template<typename t645>
-    t645 get(Prelude::maybe<t645> maybeVal) {
-        return (([&]() -> t645 {
-            Prelude::maybe<t645> guid118 = maybeVal;
+    template<typename t646>
+    t646 get(Prelude::maybe<t646> maybeVal) {
+        return (([&]() -> t646 {
+            Prelude::maybe<t646> guid118 = maybeVal;
             return ((((guid118).tag == 0) && true) ? 
-                (([&]() -> t645 {
-                    t645 val = (guid118).just;
+                (([&]() -> t646 {
+                    t646 val = (guid118).just;
                     return val;
                 })())
             :
-                juniper::quit<t645>());
+                juniper::quit<t646>());
         })());
     }
 }
 
 namespace Maybe {
-    template<typename t647>
-    bool isJust(Prelude::maybe<t647> maybeVal) {
+    template<typename t648>
+    bool isJust(Prelude::maybe<t648> maybeVal) {
         return (([&]() -> bool {
-            Prelude::maybe<t647> guid119 = maybeVal;
+            Prelude::maybe<t648> guid119 = maybeVal;
             return ((((guid119).tag == 0) && true) ? 
                 (([&]() -> bool {
                     return true;
@@ -3375,17 +3380,17 @@ namespace Maybe {
 }
 
 namespace Maybe {
-    template<typename t649>
-    bool isNothing(Prelude::maybe<t649> maybeVal) {
-        return !(isJust<t649>(maybeVal));
+    template<typename t650>
+    bool isNothing(Prelude::maybe<t650> maybeVal) {
+        return !(isJust<t650>(maybeVal));
     }
 }
 
 namespace Maybe {
-    template<typename t653>
-    int32_t count(Prelude::maybe<t653> maybeVal) {
+    template<typename t654>
+    int32_t count(Prelude::maybe<t654> maybeVal) {
         return (([&]() -> int32_t {
-            Prelude::maybe<t653> guid120 = maybeVal;
+            Prelude::maybe<t654> guid120 = maybeVal;
             return ((((guid120).tag == 0) && true) ? 
                 (([&]() -> int32_t {
                     return 1;
@@ -3402,47 +3407,47 @@ namespace Maybe {
 }
 
 namespace Maybe {
-    template<typename t655, typename t656>
-    t656 foldl(juniper::function<t656(t655,t656)> f, t656 initState, Prelude::maybe<t655> maybeVal) {
-        return (([&]() -> t656 {
-            Prelude::maybe<t655> guid121 = maybeVal;
+    template<typename t656, typename t657>
+    t657 foldl(juniper::function<t657(t656,t657)> f, t657 initState, Prelude::maybe<t656> maybeVal) {
+        return (([&]() -> t657 {
+            Prelude::maybe<t656> guid121 = maybeVal;
             return ((((guid121).tag == 0) && true) ? 
-                (([&]() -> t656 {
-                    t655 val = (guid121).just;
+                (([&]() -> t657 {
+                    t656 val = (guid121).just;
                     return f(val, initState);
                 })())
             :
                 (true ? 
-                    (([&]() -> t656 {
+                    (([&]() -> t657 {
                         return initState;
                     })())
                 :
-                    juniper::quit<t656>()));
+                    juniper::quit<t657>()));
         })());
     }
 }
 
 namespace Maybe {
-    template<typename t661, typename t662>
-    t662 fodlr(juniper::function<t662(t661,t662)> f, t662 initState, Prelude::maybe<t661> maybeVal) {
-        return foldl<t661, t662>(f, initState, maybeVal);
+    template<typename t662, typename t663>
+    t663 fodlr(juniper::function<t663(t662,t663)> f, t663 initState, Prelude::maybe<t662> maybeVal) {
+        return foldl<t662, t663>(f, initState, maybeVal);
     }
 }
 
 namespace Maybe {
-    template<typename t668>
-    juniper::unit iter(juniper::function<juniper::unit(t668)> f, Prelude::maybe<t668> maybeVal) {
+    template<typename t669>
+    juniper::unit iter(juniper::function<juniper::unit(t669)> f, Prelude::maybe<t669> maybeVal) {
         return (([&]() -> juniper::unit {
-            Prelude::maybe<t668> guid122 = maybeVal;
+            Prelude::maybe<t669> guid122 = maybeVal;
             return ((((guid122).tag == 0) && true) ? 
                 (([&]() -> juniper::unit {
-                    t668 val = (guid122).just;
+                    t669 val = (guid122).just;
                     return f(val);
                 })())
             :
                 (true ? 
                     (([&]() -> juniper::unit {
-                        Prelude::maybe<t668> nothing = guid122;
+                        Prelude::maybe<t669> nothing = guid122;
                         return juniper::unit();
                     })())
                 :
@@ -3969,8 +3974,8 @@ namespace Math {
 }
 
 namespace Math {
-    template<typename t721>
-    t721 clamp(t721 x, t721 min, t721 max) {
+    template<typename t722>
+    t722 clamp(t722 x, t722 min, t722 max) {
         return ((min > x) ? 
             min
         :
@@ -3982,8 +3987,8 @@ namespace Math {
 }
 
 namespace Math {
-    template<typename t723>
-    int32_t sign(t723 n) {
+    template<typename t724>
+    int32_t sign(t724 n) {
         return ((n == 0) ? 
             0
         :
@@ -4076,12 +4081,12 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t746, int c69>
-    Vector::vector<t746, c69> make(juniper::array<t746, c69> d) {
-        return (([&]() -> Vector::vector<t746, c69> {
+    template<typename t747, int c69>
+    Vector::vector<t747, c69> make(juniper::array<t747, c69> d) {
+        return (([&]() -> Vector::vector<t747, c69> {
             int32_t n = c69;
-            return (([&]() -> Vector::vector<t746, c69>{
-                Vector::vector<t746, c69> guid156;
+            return (([&]() -> Vector::vector<t747, c69>{
+                Vector::vector<t747, c69> guid156;
                 guid156.data = d;
                 return guid156;
             })());
@@ -4090,16 +4095,16 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t749, int c71>
-    t749 get(uint32_t i, Vector::vector<t749, c71> v) {
-        return (([&]() -> t749 {
+    template<typename t750, int c71>
+    t750 get(uint32_t i, Vector::vector<t750, c71> v) {
+        return (([&]() -> t750 {
             int32_t n = c71;
-            return (([&]() -> t749 {
-                Vector::vector<t749, c71> guid157 = v;
+            return (([&]() -> t750 {
+                Vector::vector<t750, c71> guid157 = v;
                 if (!(true)) {
                     juniper::quit<juniper::unit>();
                 }
-                juniper::array<t749, c71> data = (guid157).data;
+                juniper::array<t750, c71> data = (guid157).data;
                 
                 return (data)[i];
             })());
@@ -4108,16 +4113,16 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t751, int c72>
-    Vector::vector<t751, c72> add(Vector::vector<t751, c72> v1, Vector::vector<t751, c72> v2) {
-        return (([&]() -> Vector::vector<t751, c72> {
+    template<typename t752, int c72>
+    Vector::vector<t752, c72> add(Vector::vector<t752, c72> v1, Vector::vector<t752, c72> v2) {
+        return (([&]() -> Vector::vector<t752, c72> {
             int32_t n = c72;
-            return (([&]() -> Vector::vector<t751, c72> {
-                Vector::vector<t751, c72> guid158 = v1;
+            return (([&]() -> Vector::vector<t752, c72> {
+                Vector::vector<t752, c72> guid158 = v1;
                 if (!(true)) {
                     juniper::quit<juniper::unit>();
                 }
-                Vector::vector<t751, c72> result = guid158;
+                Vector::vector<t752, c72> result = guid158;
                 
                 (([&]() -> juniper::unit {
                     uint32_t guid159 = 0;
@@ -4134,13 +4139,13 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t760, int c76>
-    Vector::vector<t760, c76> zero() {
-        return (([&]() -> Vector::vector<t760, c76> {
+    template<typename t761, int c76>
+    Vector::vector<t761, c76> zero() {
+        return (([&]() -> Vector::vector<t761, c76> {
             int32_t n = c76;
-            return (([&]() -> Vector::vector<t760, c76>{
-                Vector::vector<t760, c76> guid161;
-                guid161.data = (juniper::array<t760, c76>().fill(0));
+            return (([&]() -> Vector::vector<t761, c76>{
+                Vector::vector<t761, c76> guid161;
+                guid161.data = (juniper::array<t761, c76>().fill(0));
                 return guid161;
             })());
         })());
@@ -4148,16 +4153,16 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t762, int c77>
-    Vector::vector<t762, c77> subtract(Vector::vector<t762, c77> v1, Vector::vector<t762, c77> v2) {
-        return (([&]() -> Vector::vector<t762, c77> {
+    template<typename t763, int c77>
+    Vector::vector<t763, c77> subtract(Vector::vector<t763, c77> v1, Vector::vector<t763, c77> v2) {
+        return (([&]() -> Vector::vector<t763, c77> {
             int32_t n = c77;
-            return (([&]() -> Vector::vector<t762, c77> {
-                Vector::vector<t762, c77> guid162 = v1;
+            return (([&]() -> Vector::vector<t763, c77> {
+                Vector::vector<t763, c77> guid162 = v1;
                 if (!(true)) {
                     juniper::quit<juniper::unit>();
                 }
-                Vector::vector<t762, c77> result = guid162;
+                Vector::vector<t763, c77> result = guid162;
                 
                 (([&]() -> juniper::unit {
                     uint32_t guid163 = 0;
@@ -4177,16 +4182,16 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t770, int c81>
-    Vector::vector<t770, c81> scale(t770 scalar, Vector::vector<t770, c81> v) {
-        return (([&]() -> Vector::vector<t770, c81> {
+    template<typename t771, int c81>
+    Vector::vector<t771, c81> scale(t771 scalar, Vector::vector<t771, c81> v) {
+        return (([&]() -> Vector::vector<t771, c81> {
             int32_t n = c81;
-            return (([&]() -> Vector::vector<t770, c81> {
-                Vector::vector<t770, c81> guid165 = v;
+            return (([&]() -> Vector::vector<t771, c81> {
+                Vector::vector<t771, c81> guid165 = v;
                 if (!(true)) {
                     juniper::quit<juniper::unit>();
                 }
-                Vector::vector<t770, c81> result = guid165;
+                Vector::vector<t771, c81> result = guid165;
                 
                 (([&]() -> juniper::unit {
                     uint32_t guid166 = 0;
@@ -4206,16 +4211,16 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t780, int c84>
-    t780 dot(Vector::vector<t780, c84> v1, Vector::vector<t780, c84> v2) {
-        return (([&]() -> t780 {
+    template<typename t781, int c84>
+    t781 dot(Vector::vector<t781, c84> v1, Vector::vector<t781, c84> v2) {
+        return (([&]() -> t781 {
             int32_t n = c84;
-            return (([&]() -> t780 {
-                t780 guid168 = 0;
+            return (([&]() -> t781 {
+                t781 guid168 = 0;
                 if (!(true)) {
                     juniper::quit<juniper::unit>();
                 }
-                t780 sum = guid168;
+                t781 sum = guid168;
                 
                 (([&]() -> juniper::unit {
                     uint32_t guid169 = 0;
@@ -4235,16 +4240,16 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t786, int c87>
-    t786 magnitude2(Vector::vector<t786, c87> v) {
-        return (([&]() -> t786 {
+    template<typename t787, int c87>
+    t787 magnitude2(Vector::vector<t787, c87> v) {
+        return (([&]() -> t787 {
             int32_t n = c87;
-            return (([&]() -> t786 {
-                t786 guid171 = 0;
+            return (([&]() -> t787 {
+                t787 guid171 = 0;
                 if (!(true)) {
                     juniper::quit<juniper::unit>();
                 }
-                t786 sum = guid171;
+                t787 sum = guid171;
                 
                 (([&]() -> juniper::unit {
                     uint32_t guid172 = 0;
@@ -4264,26 +4269,26 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t788, int c90>
-    double magnitude(Vector::vector<t788, c90> v) {
+    template<typename t789, int c90>
+    double magnitude(Vector::vector<t789, c90> v) {
         return (([&]() -> double {
             int32_t n = c90;
-            return sqrt_(magnitude2<t788, c90>(v));
+            return sqrt_(magnitude2<t789, c90>(v));
         })());
     }
 }
 
 namespace Vector {
-    template<typename t794, int c91>
-    Vector::vector<t794, c91> multiply(Vector::vector<t794, c91> u, Vector::vector<t794, c91> v) {
-        return (([&]() -> Vector::vector<t794, c91> {
+    template<typename t795, int c91>
+    Vector::vector<t795, c91> multiply(Vector::vector<t795, c91> u, Vector::vector<t795, c91> v) {
+        return (([&]() -> Vector::vector<t795, c91> {
             int32_t n = c91;
-            return (([&]() -> Vector::vector<t794, c91> {
-                Vector::vector<t794, c91> guid174 = u;
+            return (([&]() -> Vector::vector<t795, c91> {
+                Vector::vector<t795, c91> guid174 = u;
                 if (!(true)) {
                     juniper::quit<juniper::unit>();
                 }
-                Vector::vector<t794, c91> result = guid174;
+                Vector::vector<t795, c91> result = guid174;
                 
                 (([&]() -> juniper::unit {
                     uint32_t guid175 = 0;
@@ -4303,24 +4308,24 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t802, int c95>
-    Vector::vector<t802, c95> normalize(Vector::vector<t802, c95> v) {
-        return (([&]() -> Vector::vector<t802, c95> {
+    template<typename t803, int c95>
+    Vector::vector<t803, c95> normalize(Vector::vector<t803, c95> v) {
+        return (([&]() -> Vector::vector<t803, c95> {
             int32_t n = c95;
-            return (([&]() -> Vector::vector<t802, c95> {
-                double guid177 = magnitude<t802, c95>(v);
+            return (([&]() -> Vector::vector<t803, c95> {
+                double guid177 = magnitude<t803, c95>(v);
                 if (!(true)) {
                     juniper::quit<juniper::unit>();
                 }
                 double mag = guid177;
                 
                 return ((mag > 0) ? 
-                    (([&]() -> Vector::vector<t802, c95> {
-                        Vector::vector<t802, c95> guid178 = v;
+                    (([&]() -> Vector::vector<t803, c95> {
+                        Vector::vector<t803, c95> guid178 = v;
                         if (!(true)) {
                             juniper::quit<juniper::unit>();
                         }
-                        Vector::vector<t802, c95> result = guid178;
+                        Vector::vector<t803, c95> result = guid178;
                         
                         (([&]() -> juniper::unit {
                             uint32_t guid179 = 0;
@@ -4343,50 +4348,50 @@ namespace Vector {
 }
 
 namespace Vector {
-    template<typename t810, int c98>
-    double angle(Vector::vector<t810, c98> v1, Vector::vector<t810, c98> v2) {
+    template<typename t811, int c98>
+    double angle(Vector::vector<t811, c98> v1, Vector::vector<t811, c98> v2) {
         return (([&]() -> double {
             int32_t n = c98;
-            return acos_((dot<t810, c98>(v1, v2) / sqrt_((magnitude2<t810, c98>(v1) * magnitude2<t810, c98>(v2)))));
+            return acos_((dot<t811, c98>(v1, v2) / sqrt_((magnitude2<t811, c98>(v1) * magnitude2<t811, c98>(v2)))));
         })());
     }
 }
 
 namespace Vector {
-    template<typename t848>
-    Vector::vector<t848, 3> cross(Vector::vector<t848, 3> u, Vector::vector<t848, 3> v) {
-        return (([&]() -> Vector::vector<t848, 3>{
-            Vector::vector<t848, 3> guid181;
-            guid181.data = (juniper::array<t848, 3> { {((((u).data)[1] * ((v).data)[2]) - (((u).data)[2] * ((v).data)[1])), ((((u).data)[2] * ((v).data)[0]) - (((u).data)[0] * ((v).data)[2])), ((((u).data)[0] * ((v).data)[1]) - (((u).data)[1] * ((v).data)[0]))} });
+    template<typename t849>
+    Vector::vector<t849, 3> cross(Vector::vector<t849, 3> u, Vector::vector<t849, 3> v) {
+        return (([&]() -> Vector::vector<t849, 3>{
+            Vector::vector<t849, 3> guid181;
+            guid181.data = (juniper::array<t849, 3> { {((((u).data)[1] * ((v).data)[2]) - (((u).data)[2] * ((v).data)[1])), ((((u).data)[2] * ((v).data)[0]) - (((u).data)[0] * ((v).data)[2])), ((((u).data)[0] * ((v).data)[1]) - (((u).data)[1] * ((v).data)[0]))} });
             return guid181;
         })());
     }
 }
 
 namespace Vector {
-    template<typename t850, int c111>
-    Vector::vector<t850, c111> project(Vector::vector<t850, c111> a, Vector::vector<t850, c111> b) {
-        return (([&]() -> Vector::vector<t850, c111> {
+    template<typename t851, int c111>
+    Vector::vector<t851, c111> project(Vector::vector<t851, c111> a, Vector::vector<t851, c111> b) {
+        return (([&]() -> Vector::vector<t851, c111> {
             int32_t n = c111;
-            return (([&]() -> Vector::vector<t850, c111> {
-                Vector::vector<t850, c111> guid182 = normalize<t850, c111>(b);
+            return (([&]() -> Vector::vector<t851, c111> {
+                Vector::vector<t851, c111> guid182 = normalize<t851, c111>(b);
                 if (!(true)) {
                     juniper::quit<juniper::unit>();
                 }
-                Vector::vector<t850, c111> bn = guid182;
+                Vector::vector<t851, c111> bn = guid182;
                 
-                return scale<t850, c111>(dot<t850, c111>(a, bn), bn);
+                return scale<t851, c111>(dot<t851, c111>(a, bn), bn);
             })());
         })());
     }
 }
 
 namespace Vector {
-    template<typename t860, int c112>
-    Vector::vector<t860, c112> projectPlane(Vector::vector<t860, c112> a, Vector::vector<t860, c112> m) {
-        return (([&]() -> Vector::vector<t860, c112> {
+    template<typename t861, int c112>
+    Vector::vector<t861, c112> projectPlane(Vector::vector<t861, c112> a, Vector::vector<t861, c112> m) {
+        return (([&]() -> Vector::vector<t861, c112> {
             int32_t n = c112;
-            return subtract<t860, c112>(a, project<t860, c112>(a, m));
+            return subtract<t861, c112>(a, project<t861, c112>(a, m));
         })());
     }
 }
@@ -4428,16 +4433,7 @@ namespace Blink {
 }
 
 namespace Blink {
-    Io::pinState fold(Io::pinState lastState) {
-        return (([&]() -> Io::pinState {
-            Io::printStr(((const PROGMEM char *)("hello")));
-            return Io::toggle(lastState);
-        })());
-    }
-}
-
-namespace Blink {
-    juniper::unit blink() {
+    juniper::unit loop() {
         return (([&]() -> juniper::unit {
             Prelude::sig<uint32_t> guid183 = Time::every(1000, tState);
             if (!(true)) {
@@ -4446,7 +4442,7 @@ namespace Blink {
             Prelude::sig<uint32_t> timerSig = guid183;
             
             Prelude::sig<Io::pinState> guid184 = Signal::foldP<uint32_t, Io::pinState>(juniper::function<Io::pinState(uint32_t,Io::pinState)>([=](uint32_t currentTime, Io::pinState lastState) mutable -> Io::pinState { 
-                return fold(lastState);
+                return Io::toggle(lastState);
              }), ledState, timerSig);
             if (!(true)) {
                 juniper::quit<juniper::unit>();
@@ -4464,22 +4460,10 @@ namespace Blink {
     }
 }
 
-namespace Blink {
-    juniper::unit main() {
-        return (([&]() -> juniper::unit {
-            setup();
-            return (([&]() -> juniper::unit {
-                while (true) {
-                    blink();
-                }
-                return {};
-            })());
-        })());
-    }
-}
-
-int main() {
+void setup() {
     init();
-    Blink::main();
-    return 0;
+    Blink::setup();
+}
+void loop() {
+    Blink::loop();
 }
